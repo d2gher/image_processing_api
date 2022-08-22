@@ -5,6 +5,7 @@ const port = 3000;
 
 import placeholderRoute from "./Controllers/placeholder";
 import resizeRoute from "./Controllers/resize";
+
 app.listen(port, () => {
   console.log(`App is working at local host: ${port}`);
 });
