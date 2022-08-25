@@ -10,7 +10,7 @@
     "jasmine": "jasmine",
     "build": "npx tsc",
     "test": "npm run build && npm run jasmine",
-    "start": "npx ts-node src/app"
+    "start": "node dist/app"
   },
   "keywords": [],
   "author": "",
