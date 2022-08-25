@@ -1,8 +1,8 @@
 import express from "express";
-import sharp from "sharp";
 import path from "path";
 import fs from "fs";
 import { widthHeightCheck } from "../utils/helpers";
+import resize from "../utils/resizeUtils";
 
 const router = express.Router();
 
@@ -33,7 +33,7 @@ router.get("/", (req: express.Request, res: express.Response) => {
     fs.access(thumbnailPath, async (err) => {
       // If the image hasn't been processed, then process it
       if (err) {
-        await resize(req, res, width, height);
+        await resize(req.query.name as string, width, height);
       }
       // Load the image
       res.sendFile(
@@ -47,25 +47,4 @@ router.get("/", (req: express.Request, res: express.Response) => {
   });
 });
 
-async function resize(
-  req: express.Request,
-  res: express.Response,
-  width: number,
-  height: number
-) {
-  try {
-    await sharp(`./public/images/input/${req.query.name}.jpg`)
-      .resize(width, height)
-      .toFormat("jpg")
-      .toFile(
-        `./public/images/output/${
-          req.query.name + "_" + width + "_" + height
-        }.jpg`
-      );
-  } catch (error) {
-    console.log(error);
-    res.send("Prossing Faild");
-    res.end();
-  }
-}
 export default router;

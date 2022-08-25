@@ -1,6 +1,6 @@
 import express from "express";
-import sharp from "sharp";
 import { widthHeightCheck } from "../utils/helpers";
+import placeholder from "../utils/placeholderUtils";
 
 const router = express.Router();
 
@@ -14,24 +14,7 @@ router.get("/", (req: express.Request, res: express.Response) => {
   } else {
     const { width, height } = widthHeightCheck(req, res);
 
-    (async function () {
-      try {
-        const image = await sharp({
-          create: {
-            width: width,
-            height: height,
-            channels: 4,
-            background: { r: 250, g: 0, b: 0 },
-          },
-        })
-          .toFormat("jpg")
-          .toBuffer();
-        res.write(image);
-        res.end();
-      } catch (error) {
-        console.error(error);
-      }
-    })();
+    placeholder(res, width, height);
   }
 });
 
